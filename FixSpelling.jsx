@@ -1,15 +1,19 @@
-﻿sourcePath = "C:\\Users\\adonias\\Desktop\\SOT Bole";
+﻿sourcePath = "E:\\Gibson Mekanissa Yearbook Automated";
 var sections = GetFolders(sourcePath);
 
-for(var i=0 ; i < sections.length ; i++){
+for(var i=3 ; i <= sections.length ; i++){
     var psdFiles = GetFiles(sections[i],"*.PSD");
     for(var j=0 ; j < psdFiles.length ; j++){
         var doc = OpenPSD(psdFiles[j]);
-        var fieldsGroup = GetLayerByName(doc, "FIELDS");
+        var fieldsGroup = GetLayerByName(doc, "LABELS");
         var textLayers = fieldsGroup.layers;
         for(var k=0 ; k < textLayers.length ; k++){
-            FixCasingMistakes(textLayers[k]); 
-         }
+            // FixCasingMistakes(textLayers[k]); 
+            if(GetLayerText(textLayers[k]) === "unforgattable moments"){
+                FixSpellingMistakes(textLayers[k], "UNFORGETTABLE MOMENTS");
+            }
+            
+        }
         doc.close(SaveOptions.SAVECHANGES)
     }
 }
@@ -66,15 +70,4 @@ function SaveAsJPEG(path){
     var JPEGSaveOpts = new JPEGSaveOptions();
     JPEGSaveOptions.quality = 12;
     doc.saveAs(savePath, JPEGSaveOpts, true);
-}
-
-function ChangeMode(doc, mode){
-    switch(mode){
-        case "RGB" :
-            doc.changeMode(ChangeMode.RGB);
-            break;
-        case "CMYK":
-            doc.changeMode(ChangeMode.CMYK);
-        default:
-    }
 }
