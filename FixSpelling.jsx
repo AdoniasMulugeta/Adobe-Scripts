@@ -71,3 +71,7 @@ function SaveAsJPEG(path){
     JPEGSaveOptions.quality = 12;
     doc.saveAs(savePath, JPEGSaveOpts, true);
 }
+
+function ConvertToRGB(doc){
+    doc.ChangeMode(ChangeMode.RGB)
+}
