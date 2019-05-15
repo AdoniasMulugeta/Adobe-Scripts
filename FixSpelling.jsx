@@ -9,7 +9,7 @@ for(var i=0 ; i < sections.length ; i++){
         var textLayers = fieldsGroup.layers;
         for(var k=0 ; k < textLayers.length ; k++){
             FixCasingMistakes(textLayers[k]); 
-        }
+         }
         doc.close(SaveOptions.SAVECHANGES)
     }
 }
@@ -59,4 +59,22 @@ function OpenPSD(PSDPath){
 function GetLayerByName(ref, layerName){
     var layer = ref.layers.getByName(layerName);
     return layer;
+}
+
+function SaveAsJPEG(path){
+    var savePath = new File(path);
+    var JPEGSaveOpts = new JPEGSaveOptions();
+    JPEGSaveOptions.quality = 12;
+    doc.saveAs(savePath, JPEGSaveOpts, true);
+}
+
+function ChangeMode(doc, mode){
+    switch(mode){
+        case "RGB" :
+            doc.changeMode(ChangeMode.RGB);
+            break;
+        case "CMYK":
+            doc.changeMode(ChangeMode.CMYK);
+        default:
+    }
 }
