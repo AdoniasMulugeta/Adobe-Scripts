@@ -1,4 +1,4 @@
-﻿//@include "json2.js"
+﻿ //@include "json2.js"
 var doc = app.activeDocument;
 var layer = doc.activeLayer;
 
@@ -8,11 +8,11 @@ var templateDocument = doc;
 
 var saveName = "";
 var destPath = sourcePath;
-var pageNumberCounter = 1;
-var sections = Folder(sourcePath).getFiles (function(f) { return f instanceof Folder; });
+var pageNumberCounter = 45;
+var files = Folder(sourcePath).getFiles (function(f) { return f instanceof Folder; });
 
-for(var j=0 ; j< sections.length ; j++){
-    var folders = Folder(sections[j]).getFiles (function(f) { return f instanceof Folder; });
+for(var j=2 ; j< files.length ; j++){
+    var folders = Folder(files[j]).getFiles (function(f) { return f instanceof Folder; });
     for(var i=0 ; i < folders.length ; i++){
         var list = LoadJson (folders[i]+ "/lastword.json")
         var textGroup = doc.layerSets.getByName ("FIELDS")
@@ -58,15 +58,16 @@ for(var j=0 ; j< sections.length ; j++){
             hasCasual= true;
         }
         //-----------------------------------------------------------
-        if(gownPhoto[0]){
+         if(gownPhoto[0]){
             doc = app.open(gownPhoto[0]);
-            resizeImage(null, 1337);
+            // width and height
+            resizeImage(null, 677);
             copyImage();
             doc.close(SaveOptions.DONOTSAVECHANGES);
             doc = templateDocument;
             var gownLayer = Paste ();
             gownLayer.move(gownGroup.artLayers.getByName("mask"), ElementPlacement.PLACEBEFORE)
-            moveLayer(gownLayer, 0 ,357);
+            moveLayer(gownLayer, 1845,677);
             hasGown = true;
         }
 
@@ -74,19 +75,22 @@ for(var j=0 ; j< sections.length ; j++){
         //-----------------------------------------------------------
         if(babyPicture[0]){
             doc = app.open(babyPicture[0]);
-            resizeImage(740, null);
+            resizeImage(330, null);
             copyImage();
             doc.close(SaveOptions.DONOTSAVECHANGES);
             doc = templateDocument;
             var babyLayer = Paste ();
             babyLayer.move(babyGroup.artLayers.getByName("mask"), ElementPlacement.PLACEBEFORE)
-            moveLayer(babyLayer, 0, 274)
+            moveLayer(babyLayer, 1965, 1357)
             hasBaby = true;
         }
-
-        destPath = folders[i]
-        SavePSD (list["name"])
-        saveJPEG (list["name"]);
+        ChangeToRGB(app.activeDocument)
+        var ID = list.id ? list.id+"#" : "";
+        var section = list.section ? list.section+"#" : "";
+        var fullname = list.name ? list.name.split("/")[0] : "";
+        var PSDPath = files[j]+"/"+section+ID+fullname;
+        
+        SavePSD (PSDPath)
     
         layer = templateDocument.activeLayer;
         
@@ -98,13 +102,13 @@ for(var j=0 ; j< sections.length ; j++){
     }
 }
 
-function SavePSD(name, dest){
-    var savePath = new File(destPath+name);
+function SavePSD(destPath){
+    var savePath = new File(destPath);
     var PSDSaveOptions = new PhotoshopSaveOptions();
     doc.saveAs(savePath, PSDSaveOptions, true);
 }  
-function saveJPEG(name){
-    var savePath = new File(destPath+name);
+function saveJPEG(){
+    var savePath = new File(destPath);
     var JPEGSaveOpts = new JPEGSaveOptions();
     JPEGSaveOptions.quality = 12;
     doc.saveAs(savePath, JPEGSaveOpts, true);
@@ -159,7 +163,7 @@ function placeText (layerName, text, size){
        textItem.contents = text.toString() || "";
        textItem.font=  "Dina's Handwriting";
        //textItem.width = new UnitValue(800,"px");
-       textItem.size = new UnitValue(size || 10,"px");
+       textItem.size = new UnitValue(size || 9,"px");
        textItem.color = whiteColor;
     }
     catch(error){
@@ -167,7 +171,7 @@ function placeText (layerName, text, size){
     }
 }
 function populateTexts(list){
-    list.phone = list && list.phone.toString().length === 9 ? "0"+list.phone : list.phone;
+    list.phone = list.phone && list.phone.toString().length === 9 ? "0"+list.phone : list.phone;
     placeText ("NAME",list["name"])
     placeText ("NICK_NAME",list["nickname"])
     placeText ("OBSSESSED_WITH",list["obssessed"])
@@ -181,7 +185,10 @@ function populateTexts(list){
     placeText ("10_YEARS",list["10 years"])
     placeText ("LASTWORD",list["last word"])
     placeText ("CONTACT",list.phone + list["contact info"])
-    placeText ("PAGE NUMBER",pageNumberCounter, 24)
+    placeText ("PAGE NUMBER",pageNumberCounter, 20)
     
 }
 
+function ChangeToRGB(doc){
+    doc.changeMode(ChangeMode.RGB)
+}

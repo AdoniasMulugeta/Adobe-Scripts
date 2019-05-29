@@ -4,6 +4,8 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
+
         
         
         {
@@ -18,6 +20,34 @@
             "request": "launch",
             "name": "Fix Spelling Mistakes",
             "program": "${workspaceFolder}/FixSpelling.jsx",
+            "stopOnEntry": false
+        },
+        {
+            "type": "extendscript-debug",
+            "request": "launch",
+            "name": "SOT Cover Page",
+            "program": "${workspaceFolder}/SOT Bole front page.jsx",
+            "stopOnEntry": false
+        },
+        {
+            "type": "extendscript-debug",
+            "request": "launch",
+            "name": "Yearbook automation",
+            "program": "${workspaceFolder}/Gibson Mekanissa.jsx",
+            "stopOnEntry": false
+        },
+        {
+            "type": "extendscript-debug",
+            "request": "launch",
+            "name": "INTELLECTUAL",
+            "program": "${workspaceFolder}/Intellectual.jsx",
+            "stopOnEntry": false
+        },
+        {
+            "type": "extendscript-debug",
+            "request": "launch",
+            "name": "swap text",
+            "program": "${workspaceFolder}/swap text.jsx",
             "stopOnEntry": false
         }
     ]

@@ -1,24 +1,16 @@
-﻿sourcePath = "E:\\Gibson Mekanissa Yearbook Automated";
-var files = GetFolders(sourcePath);
+﻿sourcePath = "F:\\Gibson CMC\\PSD";
+var files = GetFiles(sourcePath,"*.psd");
 var counter = 1;
-for(var i=0 ; i <= files.length ; i++){
-    var psdFiles = GetFiles(files[i],"*.psd");
-    for(var j=0 ; j < psdFiles.length ; j++){
-        var doc = LoadPSD(psdFiles[j]);
-        var fieldsGroup = GetLayerByName(doc, "LABELS");
-        var unforgettableLayer = GetLayerByName(fieldsGroup, "Favorite quote")
-        SetLayerText(unforgettableLayer, "UNFORGETTABLE MOMENTS");
-
-        var fieldsGroup = GetLayerByName(doc, "FIELDS");
-        var pageNumberLayer = GetLayerByName(fieldsGroup, "PAGE NUMBER")
-        SetLayerText(pageNumberLayer, counter++)
-0   
-        ChangeToRGB(doc);
-
-        SaveAsJPEG(doc.fullName.toString().slice(0,-4));
-
-        doc.close(SaveOptions.SAVECHANGES);
-    }
+for(var i=22 ; i <= files.length ; i++){
+    LoadPSD(files[i]);
+    var doc = app.activeDocument;
+    var fieldsGroup = GetLayerByName(doc, "FIELDS");
+    var quote = GetLayerByName(fieldsGroup ,"NEVER FORGET");
+    var neverForget = GetLayerByName(fieldsGroup, "QUOTE");
+    var temp = GetLayerText(quote);
+    SetLayerText(quote, GetLayerText(neverForget));
+    SetLayerText(neverForget, temp);
+    doc.close(SaveOptions.SAVECHANGES)
 }
 
 function SetLayerText(layer, text){
@@ -46,7 +38,10 @@ function GetLayerText(layer){
         return null
 }
 
-
+function GetFiles(path, type){
+    path = path;
+    return Folder(path).getFiles(type || "*.png");
+}
 
 function GetFolders(path){
     return Folder(path).getFiles(function(f) { return f instanceof Folder; });
@@ -56,8 +51,6 @@ function SavePSD(doc){
     doc.save();
 }
 
-
-
 function LoadPSD(PSDPath){
     return app.open(PSDPath);
 }
@@ -66,6 +59,7 @@ function GetLayerByName(ref, layerName){
     var layer = ref.layers.getByName(layerName);
     return layer;
 }
+
 
 function SaveAsJPEG(path){
     var savePath = new File(path);
