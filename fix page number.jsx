@@ -1,26 +1,17 @@
-﻿sourcePath = "E:\\Gibson Mekanissa Yearbook Automated";
-var files = GetFolders(sourcePath);
-var counter = 1;
-for(var i=0 ; i <= files.length ; i++){
-    var psdFiles = GetFiles(files[i],"*.psd");
-    for(var j=0 ; j < psdFiles.length ; j++){
-        var doc = OpenPSD(psdFiles[j]);
-        var fieldsGroup = GetLayerByName(doc, "LABELS");
-        var unforgettableLayer = GetLayerByName(fieldsGroup, "Favorite quote")
-        SetLayerText(unforgettableLayer, "UNFORGETTABLE MOMENTS");
 
-        var fieldsGroup = GetLayerByName(doc, "FIELDS");
-        var pageNumberLayer = GetLayerByName(fieldsGroup, "PAGE NUMBER")
-        SetLayerText(pageNumberLayer, counter++)
-0   
-        ChangeToRGB(doc);
-
-        SaveAsJPEG(doc.fullName.toString().slice(0,-4));
-
-        doc.close(SaveOptions.SAVECHANGES);
-    }
+sourcePath = "Z:\\projects\\schools\\intellectual\\Yearbook\\PSD EDITED";
+var files = GetFiles(sourcePath,"*.psd");
+var count = 1;
+for(var i=0 ; i < files.length ; i++){
+    var psd = OpenPSD(files[i])
+    var pageNumber = GetLayerByName( GetLayerByName(app.activeDocument,"FIELDS"),"PAGE NUMBER")
+    SetLayerText(pageNumber, count++)
+    SaveAndClose(app.activeDocument);
 }
 
+function SaveAndClose(doc){
+    doc.close(SaveOptions.SAVECHANGES)
+}
 function SetLayerText(layer, text){
     layer.textItem.contents = text.toString();
 }
@@ -46,7 +37,10 @@ function GetLayerText(layer){
         return null
 }
 
-
+function GetFiles(path, type){
+    path = path;
+    return Folder(path).getFiles(type || "*.png");
+}
 
 function GetFolders(path){
     return Folder(path).getFiles(function(f) { return f instanceof Folder; });

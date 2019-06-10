@@ -4,15 +4,18 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
-
-        
-        
         {
             "type": "extendscript-debug",
             "request": "launch",
             "name": "Ask for script name",
             "program": "${workspaceFolder}/${command:AskForScriptName}",
+            "stopOnEntry": false
+        },
+        {
+            "type": "extendscript-debug",
+            "request": "launch",
+            "name": "fix page number",
+            "program": "${workspaceFolder}/fix page number.jsx",
             "stopOnEntry": false
         },
         {
@@ -48,6 +51,19 @@
             "request": "launch",
             "name": "swap text",
             "program": "${workspaceFolder}/swap text.jsx",
+            "stopOnEntry": false
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "node debug",
+            "program": "${workspaceFolder}/app.js"
+        },
+        {
+            "type": "extendscript-debug",
+            "request": "launch",
+            "name": "Refactored",
+            "program": "${workspaceFolder}/Refactored.jsx",
             "stopOnEntry": false
         }
     ]

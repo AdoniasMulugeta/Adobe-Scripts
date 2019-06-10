@@ -45,7 +45,7 @@ function SavePSD(doc){
 
 
 
-function LoadPSD(PSDPath){
+function OpenPSD(PSDPath){
     return app.open(PSDPath);
 }
 

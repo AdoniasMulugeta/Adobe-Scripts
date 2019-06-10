@@ -27,7 +27,7 @@ function SavePSD(destPath){
 }  
 
 //Loads PSD from provided path
-function LoadPSD(PSDPath){
+function OpenPSD(PSDPath){
     return app.open(PSDPath);
 }
 
