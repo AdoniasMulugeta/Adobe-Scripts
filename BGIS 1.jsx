@@ -14,7 +14,7 @@ var sections = Folder(sourcePath).getFiles (function(f) { return f instanceof Fo
 for(var j=2 ; j< sections.length ; j++){
     var folders = Folder(sections[j]).getFiles (function(f) { return f instanceof Folder; });
     for(var i=0 ; i < folders.length ; i++){
-        var list = LoadJson (folders[i]+ "/lastword.json")
+        var list = LoadJSON (folders[i]+ "/lastword.json")
         var textGroup = doc.layerSets.getByName ("FIELDS")
         
         var whiteColor = new SolidColor();
@@ -150,7 +150,7 @@ function Init(){
 function setActiveLayer(layerName){
     layer = doc.artLayers.getByName (layerName);
 }
-function LoadJson(path){
+function LoadJSON(path){
     var jsonFile = new File(path);
     jsonFile.open ('r');
     var jsonStr = jsonFile.read ();
