@@ -49,6 +49,20 @@
         {
             "type": "extendscript-debug",
             "request": "launch",
+            "name": "BGIS 2",
+            "program": "${workspaceFolder}/BGIS 2.jsx",
+            "stopOnEntry": false
+        },
+        {
+            "type": "extendscript-debug",
+            "request": "launch",
+            "name": "Spring",
+            "program": "${workspaceFolder}/Spring.jsx",
+            "stopOnEntry": false
+        },
+        {
+            "type": "extendscript-debug",
+            "request": "launch",
             "name": "swap text",
             "program": "${workspaceFolder}/swap text.jsx",
             "stopOnEntry": false

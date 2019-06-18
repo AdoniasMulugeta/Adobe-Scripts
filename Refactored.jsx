@@ -1,4 +1,5 @@
 ﻿//@include "json2.js"
+
 // var doc = app.activeDocument;
 // var layer = doc.activeLayer;
 
@@ -102,6 +103,23 @@
         
 //     }
 // }
+var sourcePath = Folder.selectDialog("Select source folder")
+//var destPath = Folder.selectDialog("Select destination folder for PSD")
+LoadImage(sourcePath)
+Beep()
+function CloseOpenDocuments(){
+    while(app.documents.length){
+        app.activeDocument.close()
+    }
+}
+
+function LoadImage(imagePath){
+    return app.load(GetFiles(imagePath)[0])
+}
+
+function Beep(){
+    app.beep()
+}
 
 function GetLayerText(layer){
     try{
