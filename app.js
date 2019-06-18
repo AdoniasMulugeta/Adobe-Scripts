@@ -13,12 +13,12 @@ let list = require(path.join(BASE_DIR,"SOTM-lastwords.json"));
 
 // function MoveByID(BASE_DIR, idTemplate){
 // filesAudit(BASE_DIR)
-// SortBySection(BASE_DIR)
+SortBySection(BASE_DIR)
 // CreateFoldersFromList(list, BASE_DIR)
 // MoveFilesByID(BASE_DIR)
 // SortByID(BASE_DIR)
-SplitJSON(list, BASE_DIR)
-AuditFiles(BASE_DIR)
+//SplitJSON(list, BASE_DIR)
+// AuditFiles(BASE_DIR)
 
 function AuditFiles(BASE_DIR){
     let result = []

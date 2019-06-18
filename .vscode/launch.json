@@ -79,6 +79,13 @@
             "name": "Refactored",
             "program": "${workspaceFolder}/Refactored.jsx",
             "stopOnEntry": false
+        },
+        {
+            "type": "extendscript-debug",
+            "request": "launch",
+            "name": "SOT MEK & GULL",
+            "program": "${workspaceFolder}/SOT Mek & Gullele.jsx",
+            "stopOnEntry": false
         }
     ]
 }
