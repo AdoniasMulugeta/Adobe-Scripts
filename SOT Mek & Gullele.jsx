@@ -151,7 +151,7 @@ function placeText (layerName, text, size){
        textItem.font=  "Dina's Handwriting";
        //textItem.width = new UnitValue(800,"px");
        textItem.size = new UnitValue(size || 9,"px");
-       textItem.color = whiteColor;
+    //    textItem.color = whiteColor;
     }
     catch(error){
         console.log(error)
