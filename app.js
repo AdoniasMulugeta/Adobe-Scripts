@@ -16,7 +16,9 @@ let list = require(path.join(BASE_DIR,"SOTM-lastwords.json"));
 // SortBySection(BASE_DIR)
 // CreateFoldersFromList(list, BASE_DIR)
 // MoveFilesByID(BASE_DIR)
-SortByID(BASE_DIR)
+// SortByID(BASE_DIR)
+SplitJSON(list, BASE_DIR)
+AuditFiles(BASE_DIR)
 
 function AuditFiles(BASE_DIR){
     let result = []
@@ -35,13 +37,14 @@ function AuditFiles(BASE_DIR){
     })
 }
 
-function SortByID(baseDir, regex = /(SOTM-19-)\d{3}/){
+function SortByID(baseDir, regex = "(SOTM-19-)\d{3}"){
+    regex = new RegExp(regex);
     let folders = GetFolders(baseDir);
     let files = GetFiles(baseDir);
     files.map(file => {
         folders.filter(folder => {
-            var matching = file.match()
-            if(matching.length && folder.includes(matching[0])){
+            var matching = file.match(regex)
+            if(matching && matching.length && folder.includes(matching[0])){
                 MoveFile(path.join(baseDir, file),path.join(folder,file))
             }
         })
