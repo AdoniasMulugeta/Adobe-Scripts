@@ -8,7 +8,7 @@ function GetFolders(path){
     return Folder(path).getFiles(function(f) { return f instanceof Folder; });
 }
 //saves new changes on the same PSD
-function SavePSD(doc){
+function Save(doc){
     doc.save();
 }
 //saves the opened PSD as a JPEG image
@@ -56,7 +56,7 @@ function GetLayerByName(ref, layerName){
 
 //changes color mode to RGB
 function ChangeToRGB(doc){
-    if(IsTypeDocument(doc)){
+    if(IsDocument(doc)){
         doc.changeMode(ChangeMode.RGB)
     }
 }
@@ -126,8 +126,9 @@ function MoveToGroup(group, layer, placement){
     // TODO 
 }
 
-function IsTypeDocument(doc){
+function IsDocument(doc){
     // TODO 
+    return true
 }
 
 function IsTextLayer(layer){
