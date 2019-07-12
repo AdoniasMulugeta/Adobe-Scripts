@@ -2,7 +2,7 @@
 var doc = app.activeDocument;
 var layer = doc.activeLayer;
 
-var sourcePath = doc.path
+// var sourcePath = doc.path
 var images = getFiles(sourcePath);
 var templateDocument = doc;
 
@@ -11,9 +11,9 @@ var destPath = sourcePath;
 var pageNumberCounter = 1;
 var sections = Folder(sourcePath).getFiles (function(f) { return f instanceof Folder; });
 
-for(var j=0 ; j< sections.length ; j++){
+for(var j=1 ; j< sections.length ; j++){
     var folders = Folder(sections[j]).getFiles (function(f) { return f instanceof Folder; });
-    for(var i=0 ; i < folders.length ; i++){
+    for(var i=3 ; i < folders.length ; i++){
         var list = LoadJSON (folders[i]+ "/lastword.json")
         var textGroup = doc.layerSets.getByName ("FIELDS")
         
@@ -21,9 +21,14 @@ for(var j=0 ; j< sections.length ; j++){
         whiteColor.rgb.red = 255;
         whiteColor.rgb.green = 255;
         whiteColor.rgb.blue = 255;
+
+        var blackColor = new SolidColor();
+        blackColor.rgb.red = 0;
+        blackColor.rgb.green = 0;
+        blackColor.rgb.blue = 0;
         
         populateTexts (list)
-        
+        /*
         var casualPhoto = Folder(folders[i]).getFiles(/casual/)
         var gownPhoto = Folder(folders[i]).getFiles(/gown/)
         var babyPicture = Folder(folders[i]).getFiles(/baby/)
@@ -74,6 +79,7 @@ for(var j=0 ; j< sections.length ; j++){
             moveLayer(babyLayer, 1597, 1843)
             hasBaby = true;
         }
+        */
         var ID = list.id ? list.id+"#" : "";
         var section = list.section ? list.section+"#" : "";
         var fullname = list.name ? list.name.split("/")[0] : "";
@@ -81,11 +87,12 @@ for(var j=0 ; j< sections.length ; j++){
         
         SavePSD (PSDPath)
     
-        layer = templateDocument.activeLayer;
-        if(hasCasual) casualLayer.remove();
-        if(hasGown) gownLayer.remove();
-        if(hasBaby) babyLayer.remove();
-        pageNumberCounter++;  
+        // layer = templateDocument.activeLayer;
+        // if(hasCasual) casualLayer.remove();
+        // if(hasGown) gownLayer.remove();
+        // if(hasBaby) babyLayer.remove();
+        // pageNumberCounter++;  
+        
     }
 }
 
@@ -104,7 +111,7 @@ function copyImage(){
     doc.activeLayer.copy ()
     saveName = doc.name;
 }
-function moveLayer(layer,targetX,targetY ){
+function MoveLayer(layer,targetX,targetY ){
     var Position = layer.bounds;
     Position[0] = targetX- Position[0];
     Position[1] = targetY - Position[1];
@@ -144,35 +151,44 @@ function LoadJSON(path){
     jsonFile.close();
     return JSON.parse(jsonStr);
 }
-function placeText (layerName, text, size){
+function placeText (layerName, text, size, color){
     try{
        var textItem = textGroup.artLayers.getByName (layerName).textItem;
-       textItem.contents = text.toString() || "";
-       textItem.font=  "Dina's Handwriting";
-       //textItem.width = new UnitValue(800,"px");
-       textItem.size = new UnitValue(size || 9,"px");
-    //    textItem.color = whiteColor;
+       if(text){
+            textItem.contents = text.toString() || "";
+       }
+       if(color === "white"){
+            textItem.color = whiteColor;
+       }
+       else if(color === "black"){
+            textItem.color = blackColor;
+       }
+       textItem.size = new UnitValue(size || 9,"px"); 
     }
     catch(error){
         console.log(error)
     }
 }
 function populateTexts(list){
-    list["phone number"] = list["phone number"] && list["phone number"].toString().length === 9 ? "0"+list["phone number"] : list["phone number"];
-    if(!list["phone number"]){
-        list["phone number"] = ""
-    }
-    placeText ("FULL NAME",list["name"],30)
-    placeText ("NICK NAME",list["nick name"])
+    // list["phone number"] = list["phone number"] && list["phone number"].toString().length === 9 ? "0"+list["phone number"] : list["phone number"];
+    // if(!list["phone number"]){
+    //     list["phone number"] = ""
+    // }
+    // placeText ("NAME",list["name"],30, "white" )
+    // placeText ("NICK NAME",list["nick name"])
     placeText ("BIRTHDATE",list["birthdate"])
-    placeText ("FREQUENT WORDS",list["frequent words"])
-    placeText ("UNFORGETTABLE",list["unforgettable moment"])
-    placeText ("BEST YEAR",list["best year"])
-    placeText ("ASPIRE TO BE",list["aspire to be"])
-    placeText ("HARDEST THING",list["hardest thing"])
-    placeText ("PHONE",list["phone number"])
-    placeText ("LASTWORDS", list["last words"])
-    placeText ("PAGE NUMBER",pageNumberCounter, 14)
+    // placeText ("HOROSCOPE",list["horoscope"])
+    // placeText ("FREQUENT",list["frequently used words"])
+    // placeText ("ROLE MODEL",list["role model"])
+    // placeText ("3 WORDS",list["3 words"])
+    // placeText ("FROM HIGHSCHOOL",list["who would you want to see"])
+    // placeText ("BE REMEMBERED",list["be remembered"])
+    // placeText ("10 YEARS",list["10 years"])
+    // placeText ("QUOTE",list["favorite quote"])
+    // placeText ("UNFORGETTEBLE",list["unforgettable moment"])
+    // placeText ("PHONE",list["phone"])
+    // placeText ("LASTWORD", list["last words"])
+    // placeText ("PAGE NUMBER",pageNumberCounter, 14)
     
 }
 

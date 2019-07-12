@@ -1,29 +1,36 @@
 const fs = require('fs');
 const path = require('path');
 
-const BASE_DIR = "Z:\\projects\\schools\\SOT Mekanissa & Gulelle\\Yearbook\\Automation";
+const BASE_DIR = "Z:\\projects\\schools\\intellectual\\Yearbook\\Gown Pictures\\New folder\\output";
 
-let list = require(path.join(BASE_DIR,"SOTM-lastwords.json"));
+let list = require(path.join(BASE_DIR,"INT SECTION LIST.json"));
 
 //SortBySection(BASE_DIR);
 //SelectFromList(BASE_DIR,BASE_DIR+"sorted",list,true)
-
 //SplitJSON(list,BASE_DIR)
 // RenameFromList(BASE_DIR, list)
-
 // function MoveByID(BASE_DIR, idTemplate){
 // filesAudit(BASE_DIR)
-SortBySection(BASE_DIR)
+// SortBySection(BASE_DIR)
 // CreateFoldersFromList(list, BASE_DIR)
 // MoveFilesByID(BASE_DIR)
 // SortByID(BASE_DIR)
 //SplitJSON(list, BASE_DIR)
 // AuditFiles(BASE_DIR)
+let files = GetFiles(BASE_DIR);
+list.map(item => {
+    let matching = files.filter(file => file.includes(item.id))
+    if(matching && matching.length === 1){
+        let fileName = matching[0].split("#");
+        fileName[0] = item.section;
+        fs.rename(path.join(BASE_DIR,matching[0]), path.join(BASE_DIR, fileName.join("#")))
+    }
+})
 
 function AuditFiles(BASE_DIR){
     let result = []
     let folders = GetFolders(BASE_DIR);
-    
+
     folders.map(folder=>{
         let files = GetFiles(folder)
         //var list = require(folder+"/lastword.json");
@@ -37,7 +44,7 @@ function AuditFiles(BASE_DIR){
     })
 }
 
-function SortByID(baseDir, regex = "(SOTM-19-)\d{3}"){
+function SortByID(baseDir, regex = "(SOTG-19-)\d{3}"){
     regex = new RegExp(regex);
     let folders = GetFolders(baseDir);
     let files = GetFiles(baseDir);
@@ -48,7 +55,7 @@ function SortByID(baseDir, regex = "(SOTM-19-)\d{3}"){
                 MoveFile(path.join(baseDir, file),path.join(folder,file))
             }
         })
-});
+    });
 }
 function CreateFoldersFromList(list, baseDir){
     list.map(item =>{

@@ -1,8 +1,12 @@
-﻿sourcePath = "E:\\Gibson Mekanissa Yearbook Automated";
-var files = GetFiles(sourcePath);
+﻿sourcePath = "Z:\\projects\\schools\\SOT Mekanissa & Gulelle\\Yearbook\\SoT Mekanissa\\PSD";
+var files = GetFiles(sourcePath, "*.psd");
 var counter = 1;
 for(var i=0 ; i <= files.length ; i++){
-    
+    var psd = OpenPSD(files[i])
+    var firstName = GetLayerByName( GetLayerByName(app.activeDocument,"FIELDS"),"FULL NAME")
+    firstName.textItem.size = new UnitValue(20,"px");
+    MoveLayer(firstName, 376, 1457)
+    SaveAndClose(app.activeDocument);    
 }
 
 function SetLayerText(layer, text){
@@ -43,7 +47,9 @@ function SavePSD(doc){
     doc.save();
 }
 
-
+function SaveAndClose(doc){
+    doc.close(SaveOptions.SAVECHANGES)
+}
 
 function OpenPSD(PSDPath){
     return app.open(PSDPath);
@@ -63,4 +69,19 @@ function SaveAsJPEG(path){
 
 function ChangeToRGB(doc){
     doc.changeMode(ChangeMode.RGB)
+}
+
+function MoveLayer(layer,targetX,targetY){
+    var Position = layer.bounds;
+    Position[0] = targetX- Position[0];
+    Position[1] = targetY - Position[1];
+    layer.translate(-Position[0],-Position[1]);
+}
+
+function LoadJSON(path){
+    var jsonFile = new File(path);
+    jsonFile.open ('r');
+    var jsonStr = jsonFile.read ();
+    jsonFile.close();
+    return JSON.parse(jsonStr);
 }

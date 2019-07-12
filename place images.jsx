@@ -1,3 +1,30 @@
+var sourcePath = Folder.selectDialog("Select Folder");
+var files = GetFiles(sourcePath,"*.jpg");
+var destPath = new Folder(sourcePath +"\\output\\")
+var templateDocument = app.activeDocument;
+if(!destPath.exists){
+    destPath.create();
+}
+for(var i=0 ; i < files.length ; i++){
+    var doc = app.open(files[i]);
+    var fileName = doc.name;
+    resizeImage(null, 5906);
+    copyImage()
+    doc.close(SaveOptions.DONOTSAVECHANGES);
+    doc = templateDocument;
+    var gownLayer = paste (doc);
+    gownLayer.move(GetLayerByName(doc,"Layer 1"), ElementPlacement.PLACEAFTER)
+    SavePSD(destPath+"/"+fileName)
+    gownLayer.remove();
+    
+}
+
+
+
+function paste(doc){
+    doc.selection.selectAll()
+    return doc.paste ()
+}
 //returns list of files under provided path
 function GetFiles(path, type){
     path = path;

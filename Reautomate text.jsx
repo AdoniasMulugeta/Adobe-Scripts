@@ -1,23 +1,23 @@
+﻿ //@include "json2.js"
 sourcePath = "Z:\\projects\\schools\\SOT Mekanissa & Gulelle\\Yearbook\\SoT Mekanissa\\PSD\\";
-var files = GetFiles(sourcePath,"*.psd");
-var pageNumberCounter = 0;
-
-for(var i=0 ; i < files.length ; i++){
+var files = GetFiles(sourcePath, "*.psd");
+var counter = 1;
+var list = LoadJSON(sourcePath + "lastwords.json")
+for(var i=0 ; i <= files.length ; i++){
     var psd = OpenPSD(files[i])
-    var doc = app.activeDocument
-
-    var fieldsLayer =  GetLayerByName(doc,"FIELDS");
-    var pageNumberLayer = GetLayerByName(fieldsLayer,"PAGE NUMBER");
-
-    if(pageNumberLayer){
-        SetLayerText(pageNumberLayer,pageNumberCounter++)
+    var firstName = GetLayerByName( GetLayerByName(app.activeDocument,"FIELDS"),"FULL NAME")
+    for(var j=0 ; j < list.length ; j++){
+        if(list[j].Name === GetLayerText(firstName))
+        {
+            if(list[j]["Full Name"]){
+                SetLayerText(firstName,list[j]["Full Name"])
+            }            
+        }
     }
-    SaveAndClose(app.activeDocument);
+    
+    SaveAndClose(app.activeDocument);    
 }
 
-function SaveAndClose(doc){
-    doc.close(SaveOptions.SAVECHANGES)
-}
 function SetLayerText(layer, text){
     layer.textItem.contents = text.toString();
 }
@@ -56,6 +56,10 @@ function SavePSD(doc){
     doc.save();
 }
 
+function SaveAndClose(doc){
+    doc.close(SaveOptions.SAVECHANGES)
+}
+
 function OpenPSD(PSDPath){
     return app.open(PSDPath);
 }
@@ -75,6 +79,14 @@ function SaveAsJPEG(path){
 function ChangeToRGB(doc){
     doc.changeMode(ChangeMode.RGB)
 }
+
+function MoveLayer(layer,targetX,targetY){
+    var Position = layer.bounds;
+    Position[0] = targetX- Position[0];
+    Position[1] = targetY - Position[1];
+    layer.translate(-Position[0],-Position[1]);
+}
+
 function LoadJSON(path){
     var jsonFile = new File(path);
     jsonFile.open ('r');

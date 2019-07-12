@@ -1,29 +1,37 @@
 ﻿sourcePath = "E:\\Gibson Mekanissa Yearbook Automated";
-var files = GetFolders(sourcePath);
+var files = GetFiles(sourcePath,"*.psd");
 var counter = 1;
-for(var i=0 ; i <= files.length ; i++){
-    var psdFiles = GetFiles(files[i],"*.psd");
-    for(var j=0 ; j < psdFiles.length ; j++){
-        var doc = OpenPSD(psdFiles[j]);
-        var fieldsGroup = GetLayerByName(doc, "LABELS");
-        var unforgettableLayer = GetLayerByName(fieldsGroup, "Favorite quote")
-        SetLayerText(unforgettableLayer, "UNFORGETTABLE MOMENTS");
-
-        var fieldsGroup = GetLayerByName(doc, "FIELDS");
-        var pageNumberLayer = GetLayerByName(fieldsGroup, "PAGE NUMBER")
-        SetLayerText(pageNumberLayer, counter++)
-0   
-        ChangeToRGB(doc);
-
-        SaveAsJPEG(doc.fullName.toString().slice(0,-4));
-
-        doc.close(SaveOptions.SAVECHANGES);
-    }
+for(var i=0 ; i < files.length ; i++){
+    var psd = OpenPSD(files[i])
+    var pageNumber = GetLayerByName( GetLayerByName(app.activeDocument,"FIELDS"),"BIRTHDATE")
+    SetLayerText(birthdate, lastword.birthdate)
+    SaveAndClose(app.activeDocument);
 }
 
 function SetLayerText(layer, text){
     layer.textItem.contents = text.toString();
 }
+
+
+// for(var i=0 ; i <= files.length ; i++){
+//     var psdFiles = GetFiles(files[i],"*.psd");
+//     for(var j=0 ; j < psdFiles.length ; j++){
+//         var doc = OpenPSD(psdFiles[j]);
+//         var fieldsGroup = GetLayerByName(doc, "LABELS");
+//         var unforgettableLayer = GetLayerByName(fieldsGroup, "Favorite quote")
+//         SetLayerText(unforgettableLayer, "UNFORGETTABLE MOMENTS");
+
+//         var fieldsGroup = GetLayerByName(doc, "FIELDS");
+//         var pageNumberLayer = GetLayerByName(fieldsGroup, "PAGE NUMBER")
+//         SetLayerText(pageNumberLayer, counter++)
+// 0   
+//         ChangeToRGB(doc);
+
+//         SaveAsJPEG(doc.fullName.toString().slice(0,-4));
+
+//         doc.close(SaveOptions.SAVECHANGES);
+//     }
+// }
 
 function FixCasingMistakes(element){
     if(GetLayerText(element)){

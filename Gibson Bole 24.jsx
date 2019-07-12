@@ -66,7 +66,7 @@ for(var j=0 ; j< sections.length ; j++){
             doc = templateDocument;
             var gownLayer = paste ();
             gownLayer.move(gownGroup.artLayers.getByName("mask"), ElementPlacement.PLACEBEFORE)
-            moveLayer(gownLayer, 0 ,191);
+            MoveLayer(gownLayer, 0 ,191);
             hasGown = true;
         }
 
@@ -80,7 +80,7 @@ for(var j=0 ; j< sections.length ; j++){
             doc = templateDocument;
             var babyLayer = paste ();
             babyLayer.move(babyGroup.artLayers.getByName("mask"), ElementPlacement.PLACEBEFORE)
-            moveLayer(babyLayer, 119, 125)
+            MoveLayer(babyLayer, 119, 125)
             hasBaby = true;
         }
 
@@ -113,7 +113,7 @@ function copyImage(){
     doc.activeLayer.copy ()
     saveName = doc.name;
 }
-function moveLayer(layer,targetX,targetY ){
+function MoveLayer(layer,targetX,targetY ){
     var Position = layer.bounds;
     Position[0] = targetX- Position[0];
     Position[1] = targetY - Position[1];
