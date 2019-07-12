@@ -1,7 +1,7 @@
 //returns list of files under provided path
 function GetFiles(path, type){
     path = path;
-    return Folder(path).getFiles(type || "*.png");
+    return Folder(path).getFiles(type || "*.*");
 }
 //returns list of folders under provided path
 function GetFolders(path){
