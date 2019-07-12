@@ -20,7 +20,7 @@ function SaveAsJPEG(path){
 }
 
 //saves document as a new PSD
-function SavePSD(destPath){
+function SaveAsPSD(destPath){
     var savePath = new File(destPath);
     var PSDSaveOptions = new PhotoshopSaveOptions();
     doc.saveAs(savePath, PSDSaveOptions, true);
@@ -28,7 +28,11 @@ function SavePSD(destPath){
 
 //Loads PSD from provided path
 function OpenPSD(PSDPath){
-    return app.open(PSDPath);
+    var psd = null;
+    if(FileExists(PSDPath)){
+        psd = app.open(PSDPath);
+    }
+    return psd;
 }
 
 //returs the first layer with a matching name
@@ -52,7 +56,9 @@ function GetLayerByName(ref, layerName){
 
 //changes color mode to RGB
 function ChangeToRGB(doc){
-    doc.changeMode(ChangeMode.RGB)
+    if(IsTypeDocument(doc)){
+        doc.changeMode(ChangeMode.RGB)
+    }
 }
 
 //returns the first layer text of the provided layer
@@ -65,8 +71,10 @@ function GetLayerText(layer){
 
 //sets a layer with the provided text
 function SetLayerText(layer, text, options){
-
-    layer.textItem.contents = text.toString();
+    if(LayerExists(layer) && IsTextLayer(layer)){
+        layer.textItem.contents = text.toString();
+    }
+    
 }
 
 //loads and parses a JSON file into a JS object 
@@ -105,14 +113,28 @@ function moveLayer(layer,targetX,targetY ){
     layer.translate(-Position[0],-Position[1]);
 }
 
-function LayerExists(){
-    //To-do 
+function LayerExists(layer){
+    // TODO 
 }
 
-function FileExists(){
-    //To-do
+function FileExists(filePath){
+    // TODO 
+    return true;
 }
 
 function MoveToGroup(group, layer, placement){
-    //To-do
+    // TODO 
+}
+
+function IsTypeDocument(doc){
+    // TODO 
+}
+
+function IsTextLayer(layer){
+    if(layer && layer.kind == LayerKind.TEXT){
+        return true;
+    }
+    else{
+        return false;
+    }
 }
